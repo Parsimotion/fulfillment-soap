@@ -1,0 +1,6 @@
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Fulfillment.Soap.dll.config
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Fulfillment.Soap.dll
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Fulfillment.Soap.pdb
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\obj\Debug\Fulfillment.Soap.csprojResolveAssemblyReference.cache
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\obj\Debug\Fulfillment.Soap.dll
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\obj\Debug\Fulfillment.Soap.pdb
