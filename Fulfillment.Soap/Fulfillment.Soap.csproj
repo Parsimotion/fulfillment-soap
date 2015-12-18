@@ -68,6 +68,7 @@
   <ItemGroup>
     <Content Include="Orders.asmx" />
     <Content Include="Web.config" />
+    <Content Include="Products.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FulfillmentSdk\Apis\FulfillmentApi.cs" />
@@ -81,6 +82,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnauthorizedSoapHeaderException.cs" />
+    <Compile Include="Products.asmx.cs">
+      <DependentUpon>Products.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Fulfillment.Soap.FulfillmentSdk.Dtos;
 
 namespace Fulfillment.Soap.FulfillmentSdk.Apis
@@ -16,6 +17,11 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 		{
 			var resource = GetResource(id);
 			return this.Get<Product>(resource);
+		}
+
+		public virtual IEnumerable<Product> Get()
+		{
+			return this.Get<IEnumerable<Product>>(Resource);
 		}
 
 		private static string GetResource(int id)
