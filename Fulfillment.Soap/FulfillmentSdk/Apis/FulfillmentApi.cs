@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Services.Protocols;
@@ -10,6 +12,7 @@ using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
+using RestSharp.Extensions;
 using RestSharp.Serializers;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
@@ -150,7 +153,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 					NullValueHandling = NullValueHandling.Ignore,
 					DefaultValueHandling = DefaultValueHandling.Include,
 					ContractResolver = new SnakeCaseProperiesContractResolver(),
-					Converters = new JsonConverter[] { new StringEnumConverter(), new DoubleConverter() }
+					Converters = new JsonConverter[] { new SnakeCaseEnumConverter(), new DoubleConverter() }
 				};
 			}
 		}
@@ -222,5 +225,108 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 		{
 			return objectType == typeof(double) || objectType == typeof(double?);
 		}
+	}
+
+	public class SnakeCaseEnumConverter : StringEnumConverter
+	{
+		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+		{
+
+			var val = value.GetString().ToSnakeCase();
+			serializer.Serialize(writer, val);
+		}
+
+		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+		{
+			if (reader.TokenType == JsonToken.Null)
+				return null;
+
+			var value = serializer
+				.Deserialize<string>(reader)
+				.ToPascalCase(CultureInfo.CurrentCulture);
+
+			return EnumUtils.ParseEnum(objectType, value);
+		}
+	}
+
+	public static class EnumUtils
+	{
+		/// <summary>
+		/// Get all the values of the given <typeparam name="TEnum"></typeparam>
+		/// </summary>
+		public static IEnumerable<TEnum> GetValues<TEnum>()
+		{
+			return (TEnum[])Enum.GetValues(typeof(TEnum));
+		}
+
+		public static IEnumerable<NamedObject<TEnum>> ToNamedObjects<TEnum>()
+		{
+			return GetValues<TEnum>()
+				.Select(it => new NamedObject<TEnum>(it));
+		}
+
+		public static IEnumerable<NamedObject<TEnum>> ToOrderedNamedObjects<TEnum>()
+		{
+			return GetValues<TEnum>()
+				.Select((it, position) => new OrderedNamedObject<TEnum>(it, position));
+		}
+
+		/// <summary>
+		/// Get value of the given <typeparam name="TEnum"></typeparam> from a string
+		/// </summary>
+		public static TEnum ParseEnum<TEnum>(this string value)
+		{
+			return (TEnum)ParseEnum(typeof(TEnum), value);
+		}
+
+		/// <summary>
+		/// Get value of the given <typeparam name="TEnum"></typeparam> from a string
+		/// </summary>
+		public static object ParseEnum(Type enumType, string value)
+		{
+			if (enumType.IsGenericType && enumType.GetGenericTypeDefinition() == typeof(Nullable<>))
+				return ParseNullableEnum(enumType, value);
+			return Enum.Parse(enumType, value, true);
+		}
+
+		/// <summary>
+		/// Get value of the given Generic Argument <typeparam name="Nullable<TEnum>"></typeparam> from a string
+		/// </summary>
+		private static object ParseNullableEnum(Type nullableEnumType, string value)
+		{
+			var genericType = nullableEnumType.GetGenericArguments().First();
+			return ParseEnum(genericType, value);
+		}
+
+		public static string GetString(this object value)
+		{
+			return Enum.GetName(value.GetType(), value);
+		}
+
+		public static bool IsNullableEnum(this Type t)
+		{
+			var u = Nullable.GetUnderlyingType(t);
+			return (u != null) && u.IsEnum;
+		}
+	}
+
+	public class NamedObject<T>
+	{
+		public NamedObject(T element)
+		{
+			this.Name = element;
+		}
+
+		public T Name { get; set; }
+	}
+
+	public class OrderedNamedObject<T> : NamedObject<T>
+	{
+		public OrderedNamedObject(T element, int order) : base(element)
+		{
+			this.Order = order;
+		}
+
+		public int Order { get; set; }
 	}
 }

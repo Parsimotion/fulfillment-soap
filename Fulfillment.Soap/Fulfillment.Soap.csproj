@@ -66,16 +66,23 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Inbounds.asmx" />
     <Content Include="Orders.asmx" />
     <Content Include="Web.config" />
     <Content Include="Products.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FulfillmentSdk\Apis\FulfillmentApi.cs" />
+    <Compile Include="FulfillmentSdk\Apis\FulfillmentInboundsApi.cs" />
     <Compile Include="FulfillmentSdk\Apis\FulfillmentOrdersApi.cs" />
     <Compile Include="FulfillmentSdk\Apis\FulfillmentProductsApi.cs" />
+    <Compile Include="FulfillmentSdk\Dtos\Inbound.cs" />
     <Compile Include="FulfillmentSdk\Dtos\Order.cs" />
     <Compile Include="FulfillmentSdk\Dtos\Product.cs" />
+    <Compile Include="Inbounds.asmx.cs">
+      <DependentUpon>Inbounds.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Orders.asmx.cs">
       <DependentUpon>Orders.asmx</DependentUpon>
       <SubType>Component</SubType>
