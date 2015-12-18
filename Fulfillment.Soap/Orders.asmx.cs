@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Xml;
+using Fulfillment.Soap.FulfillmentSdk.Apis;
+using Fulfillment.Soap.FulfillmentSdk.Dtos;
 
 namespace Fulfillment.Soap
 {
@@ -26,68 +28,22 @@ namespace Fulfillment.Soap
 			public string Password;
 		}
 
-		[WebMethod(Description = "Get a list of Orders with id newer than the given id")]
+		[WebMethod(Description = "Get a list of Orders that have been updated after the given date in ISO 8601 Format")]
 		[SoapHeader("AuthenticationInformation")]
-		public List<Order> GetOrdersNewerThan(int id)
-		{
-			AuthenticateRequest();
-			return new List<Order> { this.Order, this.Order };
-		}
-
-		private void AuthenticateRequest()
+		public List<Order> GetUpdatedAfter(DateTime date)
 		{
 			var auth = this.AuthenticationInformation;
-			if (auth == null || auth.UserName != "username" || auth.Password != "password")
-				throw new UnauthorizedSoapHeaderException();
+			var api = new FulfillmentOrdersApi(auth.UserName, auth.Password);
+			return api.GetUpdatedAfter(date).ToList();
 		}
 
-		private Order Order
+		[WebMethod(Description = "Get an Order by Id")]
+		[SoapHeader("AuthenticationInformation")]
+		public Order GetById(int id)
 		{
-			get
-			{
-				return new Order
-				{
-					OrderId = 1234,
-					Buyer = new BuyerWithAddress
-					{
-						Nickname = "JUANPEREZ",
-						FirstName = "Juan",
-						LastName = "Perez",
-						Email = "juanperez@hotmail.com",
-						Phone = new Phone
-						{
-							AreaCode = "11",
-							Number = "4321-0987"
-						},
-                        Address = new Address
-						{
-							ZipCode = "36580",
-							StreetName = "Saraza",
-							StreetNumber = "1234",
-							State = new ObjectWithName { Name = "Guanajuato" },
-							Comment = "Piso 7 departamento D",
-							City = new ObjectWithName { Name = "Irapuato" }
-						},
-						BillingInfo = new BillingInfo
-						{
-							DocType = "DNI",
-                            DocNumber = "12345678"
-						},
-						Id = 8877665544
-					},
-					Lines = new[]
-					{
-						new Line
-						{
-							ProductId = 1234,
-							Title = "MercadoPago POS Device",
-							Quantity = 1,
-							SerialNumber = "1234567890"
-						}
-					}
-				};
-
-			}
+			var auth = this.AuthenticationInformation;
+			var api = new FulfillmentOrdersApi(auth.UserName, auth.Password);
+			return api.GetById(id);
 		}
 	}
 }

@@ -73,11 +73,8 @@
     <Compile Include="FulfillmentSdk\Apis\FulfillmentApi.cs" />
     <Compile Include="FulfillmentSdk\Apis\FulfillmentOrdersApi.cs" />
     <Compile Include="FulfillmentSdk\Apis\FulfillmentProductsApi.cs" />
-    <Compile Include="FulfillmentSdk\Configuration\FulfillmentConfiguration.cs" />
-    <Compile Include="FulfillmentSdk\Dtos\Line.cs" />
     <Compile Include="FulfillmentSdk\Dtos\Order.cs" />
     <Compile Include="FulfillmentSdk\Dtos\Product.cs" />
-    <Compile Include="Order.cs" />
     <Compile Include="Orders.asmx.cs">
       <DependentUpon>Orders.asmx</DependentUpon>
       <SubType>Component</SubType>

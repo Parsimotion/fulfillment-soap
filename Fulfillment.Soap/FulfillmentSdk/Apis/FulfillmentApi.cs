@@ -1,6 +1,9 @@
 using System;
+using System.Configuration;
 using System.Linq;
-using Fulfillment.Mercadolibre.FulfillmentSdk.Configuration;
+using System.Net;
+using System.Web.Services.Protocols;
+using System.Xml;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -10,16 +13,16 @@ using RestSharp.Deserializers;
 using RestSharp.Serializers;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
-namespace Fulfillment.Mercadolibre.FulfillmentSdk.Apis
+namespace Fulfillment.Soap.FulfillmentSdk.Apis
 {
 	public abstract class FulfillmentApi : RestApi
 	{
 		private readonly IDeserializer deserializer;
 
-		protected FulfillmentApi(FulfillmentConfiguration config, MeliUserInformation user) : base(config.FulfillmentUrl)
+		protected FulfillmentApi(string username, string password) : base(ConfigurationManager.AppSettings["FulfillmentUrl"])
 		{
 			this.deserializer = new SnakeCaseJsonConverter();
-			this.RestClient.Authenticator = new HttpBasicAuthenticator(user.UserId.ToString(), config.MasterToken);
+			this.RestClient.Authenticator = new HttpBasicAuthenticator(username, password);
 		}
 		
 		protected override T DeserializeResponse<T>(IRestResponse response)
@@ -27,7 +30,18 @@ namespace Fulfillment.Mercadolibre.FulfillmentSdk.Apis
 			return this.deserializer.Deserialize<T>(response);
 		}
 
-		protected override void Authorize(RestRequest request) { }
+		protected override void Validate(IRestResponse response)
+		{
+			switch (response.StatusCode)
+			{
+				case HttpStatusCode.Unauthorized:
+					throw new UnauthorizedSoapHeaderException();
+				case HttpStatusCode.NotFound:
+					throw new SoapException("NotFound", new XmlQualifiedName("NotFound"));
+			}
+		}
+
+		protected override void Authorize(RestRequest request) {}
 
 		protected override RestRequest BuildRequest(Method method, string resource)
 		{
@@ -39,7 +53,7 @@ namespace Fulfillment.Mercadolibre.FulfillmentSdk.Apis
 
 	public abstract class RestApi : BasicRestApi
 	{
-		protected RestApi(string apiBaseUrl) : base(apiBaseUrl) { }
+		protected RestApi(string apiBaseUrl) : base(apiBaseUrl) {}
 		protected void ExecuteAuthorizedRequest(Method method, string resource, object body)
 		{
 			var request = this.BuildRequest(method, resource);
@@ -52,8 +66,11 @@ namespace Fulfillment.Mercadolibre.FulfillmentSdk.Apis
 			var request = this.BuildRequest(Method.GET, resource);
 			request.Parameters.AddRange(parameters);
 			var response = this.ExecuteAuthorizedRequest(request);
+			this.Validate(response);
 			return this.DeserializeResponse<T>(response);
 		}
+
+		protected abstract void Validate(IRestResponse response);
 
 		protected void Post(string resource, object body)
 		{
@@ -94,12 +111,6 @@ namespace Fulfillment.Mercadolibre.FulfillmentSdk.Apis
 			request.Resource = resource;
 			return request;
 		}
-	}
-
-	public interface MeliUserInformation
-	{
-		long UserId { get; set; }
-		string SiteId { get; set; }
 	}
 
 	public class SnakeCaseJsonConverter : ISerializer, IDeserializer

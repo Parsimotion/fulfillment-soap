@@ -1,27 +1,23 @@
-using System.Net;
-using System.Threading.Tasks;
-using Fulfillment.Mercadolibre.FulfillmentSdk.Configuration;
-using Fulfillment.Mercadolibre.FulfillmentSdk.Dtos;
-using Integrations.Mercadolibre.Sdk.Entities;
-using Parsimotion.Utils.Exceptions;
+using System;
+using System.Collections.Generic;
+using Fulfillment.Soap.FulfillmentSdk.Dtos;
 using RestSharp;
 
-namespace Fulfillment.Mercadolibre.FulfillmentSdk.Apis
+namespace Fulfillment.Soap.FulfillmentSdk.Apis
 {
 	public class FulfillmentOrdersApi : FulfillmentApi
 	{
-		public FulfillmentOrdersApi(FulfillmentConfiguration config, MeliUserInformation user) : base(config, user) {}
+		public FulfillmentOrdersApi(string username, string password) : base(username, password) {}
 
-		public virtual async Task<Order> Create(Order order)
+		public virtual IEnumerable<Order> GetUpdatedAfter(DateTime date)
 		{
-			await this.Post("orders", order);
-			return order;
+			var parameters = new Parameter { Name = "updated_at__gt", Value = date.ToString("O"), Type = ParameterType.QueryString };
+			return this.Get<IEnumerable<Order>>("orders", parameters);
 		}
 
-		protected override void Validate(IRestResponse response)
+		public Order GetById(int id)
 		{
-			if (response.StatusCode == HttpStatusCode.Conflict)
-				throw new EntityAlreadyExistsException<Order>();
+			return this.Get<Order>(String.Format("orders/{0}",id));
 		}
 	}
 }

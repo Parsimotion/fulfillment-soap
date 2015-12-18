@@ -4,3 +4,7 @@ C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Fulfillment.Soap.
 C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\obj\Debug\Fulfillment.Soap.csprojResolveAssemblyReference.cache
 C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\obj\Debug\Fulfillment.Soap.dll
 C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\obj\Debug\Fulfillment.Soap.pdb
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Newtonsoft.Json.dll
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\RestSharp.dll
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Newtonsoft.Json.xml
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\RestSharp.xml

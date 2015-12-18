@@ -29,7 +29,6 @@ _ReSharper*/
 *.VisualState.xml
 *.orig
 *.nunit
-Parsimotion.config
 .DS_Store
 *.DotSettings.user
 
@@ -42,6 +41,3 @@ packages/*
 *.BASE.*.*
 *.REMOTE.*.*
 *.BACKUP.*.*
-WebApi/App_Data/jobs/continuous/WebjobTopicsMessageReceiver
-.vs/config/applicationhost.config
-WebApi/App_Data/Parsimotion.WebApi.XML
