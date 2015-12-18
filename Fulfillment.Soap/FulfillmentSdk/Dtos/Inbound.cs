@@ -26,7 +26,6 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 		public DateTime ReceptionDate { get; set; }
 		public bool Cancelled { get; set; }
 		public InboundLine[] Lines { get; set; }
-
-
+		public DateTime UpdatedAt { get; set; }
 	}
 }

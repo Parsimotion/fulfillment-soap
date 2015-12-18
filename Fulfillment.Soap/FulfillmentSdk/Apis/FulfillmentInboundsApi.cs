@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Fulfillment.Soap.FulfillmentSdk.Dtos;
+using RestSharp;
 
 namespace Fulfillment.Soap.FulfillmentSdk.Apis
 {
@@ -19,9 +20,10 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 			return this.Get<Inbound>(resource);
 		}
 
-		public virtual IEnumerable<Inbound> Get()
+		public virtual IEnumerable<Inbound> GetUpdatedAfter(DateTime date)
 		{
-			return this.Get<IEnumerable<Inbound>>(Resource);
+			var parameters = new Parameter { Name = "updated_at__gt", Value = date.ToString("O"), Type = ParameterType.QueryString };
+			return this.Get<IEnumerable<Inbound>>("orders", parameters);
 		}
 
 		private static string GetResource(int id)

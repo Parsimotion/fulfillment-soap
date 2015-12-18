@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -27,11 +28,12 @@ namespace Fulfillment.Soap
 
 		[WebMethod(Description = "Get a list of Inbounds")]
 		[SoapHeader("AuthenticationInformation")]
-		public List<Inbound> Get()
+		public List<Inbound> GetUpdatedAfter(DateTime date)
+
 		{
 			var auth = this.AuthenticationInformation;
 			var api = new FulfillmentInboundsApi(auth.UserName, auth.Password);
-			return api.Get().ToList();
+			return api.GetUpdatedAfter(date).ToList();
 		}
 
 		[WebMethod(Description = "Get a Inbound by Id")]
