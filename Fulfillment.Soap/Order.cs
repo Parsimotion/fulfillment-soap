@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace Fulfillment.Soap
@@ -8,6 +9,7 @@ namespace Fulfillment.Soap
 		public long OrderId { get; set; }
 		public BuyerWithAddress Buyer { get; set; }
 		public Line[] Lines { get; set; }
+
 	}
 
 	public class BuyerWithAddress : Buyer
@@ -20,6 +22,7 @@ namespace Fulfillment.Soap
 		public int ProductId { get; set; }
 		public int Quantity { get; set; }
 		public string Title { get; set; }
+		public string SerialNumber { get; set; }
 	}
 
 	public class Phone
@@ -68,4 +71,28 @@ namespace Fulfillment.Soap
 		public ObjectWithName() { }
 		public string Name { get; set; }
 	}
+
+	public class Shipping
+	{
+		public long Id { get; set; }
+		public DateTime DateCreated { get; set; }
+		public ShippingStatus Status { get; set; }
+		public Address ReceiverAddress { get; set; }
+		public double? Cost { get; set; }
+	}
+
+
+	public enum ShippingStatus
+	{
+		Pending,
+		Handling,
+		Shipped,
+		Delivered,
+		NotDelivered,
+		ReadyToShip,
+		Cancelled,
+		NotVerified,
+		ToBeAgreed,
+	}
+
 }

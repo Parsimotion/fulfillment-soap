@@ -81,7 +81,8 @@ namespace Fulfillment.Soap
 						{
 							ProductId = 1234,
 							Title = "MercadoPago POS Device",
-							Quantity = 1
+							Quantity = 1,
+							SerialNumber = "1234567890"
 						}
 					}
 				};
