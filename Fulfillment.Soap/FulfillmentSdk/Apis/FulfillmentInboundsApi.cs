@@ -23,7 +23,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 		public virtual IEnumerable<Inbound> GetUpdatedAfter(DateTime date)
 		{
 			var parameters = new Parameter { Name = "updated_at__gt", Value = date.ToString("O"), Type = ParameterType.QueryString };
-			return this.Get<IEnumerable<Inbound>>("orders", parameters);
+			return this.Get<IEnumerable<Inbound>>(Resource, parameters);
 		}
 
 		private static string GetResource(int id)
