@@ -4,6 +4,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 {
 	public class Order
 	{
+		public int Id { get; set; }
 		public long OrderId { get; set; }
 		public BuyerWithAddress Buyer { get; set; }
 		public Line[] Lines { get; set; }
