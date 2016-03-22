@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fulfillment.Soap.FulfillmentSdk.Dtos;
 using RestSharp;
 
@@ -23,6 +24,12 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 		public virtual IEnumerable<Inbound> GetUpdatedAfter(DateTime date)
 		{
 			var parameters = new Parameter { Name = "updated_at__gt", Value = date.ToString("O"), Type = ParameterType.QueryString };
+			return this.Get<IEnumerable<Inbound>>(Resource, parameters);
+		}
+
+		public virtual IEnumerable<Inbound> SearchBySerialNumber(IEnumerable<string> serialNumbers)
+		{
+			var parameters = new Parameter { Name = "lines.serial_numbers__in", Value = String.Join(",", serialNumbers), Type = ParameterType.QueryString };
 			return this.Get<IEnumerable<Inbound>>(Resource, parameters);
 		}
 

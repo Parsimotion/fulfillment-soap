@@ -8,3 +8,6 @@ C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Newtonsoft.Json.d
 C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\RestSharp.dll
 C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Newtonsoft.Json.xml
 C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\RestSharp.xml
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Omu.ValueInjecter.dll
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Omu.ValueInjecter.pdb
+C:\Users\andre\Workspace\Fulfillment.Soap\Fulfillment.Soap\bin\Omu.ValueInjecter.xml

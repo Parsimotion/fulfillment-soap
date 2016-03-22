@@ -2,28 +2,52 @@
 
 namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 {
-	public class Order
+	public class OrderWithoutLines
 	{
 		public int Id { get; set; }
 		public long OrderId { get; set; }
 		public BuyerWithAddress Buyer { get; set; }
-		public Line[] Lines { get; set; }
 		public DateTime UpdatedAt { get; set; }
 		public Shipping Shipping { get; set; }
 	}
 
-	public class BuyerWithAddress : Buyer
+	public class Order : OrderWithoutLines
 	{
-		public Address Address { get; set; }
+		public Line[] Lines { get; set; }
 	}
 
-	public class Line
+	public class OrderWithCustomsNumber : OrderWithoutLines
+	{
+		public LineWithCustomsNumber[] Lines { get; set; }
+	}
+
+	public class LineWithoutSerialNumbers
 	{
 		public int ProductId { get; set; }
 		public int Quantity { get; set; }
 		public double Price { get; set; }
 		public string Title { get; set; }
+	}
+
+	public class Line : LineWithoutSerialNumbers
+	{
 		public string[] SerialNumbers { get; set; }
+	}
+
+	public class LineWithCustomsNumber : LineWithoutSerialNumbers
+	{
+		public SerialNumberWithCustomsNumber[] SerialNumbers {get; set; }
+	}
+
+	public class SerialNumberWithCustomsNumber
+	{
+		public string SerialNumber { get; set; }
+		public string CustomsNumber { get; set; }
+	}
+
+	public class BuyerWithAddress : Buyer
+	{
+		public Address Address { get; set; }
 	}
 
 	public class Phone
