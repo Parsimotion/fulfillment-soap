@@ -43,6 +43,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 	{
 		public string SerialNumber { get; set; }
 		public string CustomsNumber { get; set; }
+		public DateTime CustomsDate { get; set; }
 	}
 
 	public class BuyerWithAddress : Buyer
