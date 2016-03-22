@@ -73,6 +73,7 @@ namespace Fulfillment.Soap
 			result.SerialNumber = serialNumber;
 			var inbound = inbounds.FirstOrDefault(it => it.Lines.Any(line => line.SerialNumbers.Contains(serialNumber)));
 			result.CustomsNumber = inbound.ShippingMethod;
+			result.CustomsDate = inbound.Eta;
 			return result;
 		}
 
