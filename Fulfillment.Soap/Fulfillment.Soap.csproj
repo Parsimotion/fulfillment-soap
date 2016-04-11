@@ -87,6 +87,7 @@
       <DependentUpon>Inbounds.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="InvalidSerialNumberException.cs" />
     <Compile Include="Orders.asmx.cs">
       <DependentUpon>Orders.asmx</DependentUpon>
       <SubType>Component</SubType>

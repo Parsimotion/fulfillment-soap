@@ -70,11 +70,18 @@ namespace Fulfillment.Soap
 		private SerialNumberWithCustomsNumber Transform(string serialNumber, IEnumerable<Inbound> inbounds)
 		{
 			var result = new SerialNumberWithCustomsNumber();
-			result.SerialNumber = serialNumber;
-			var inbound = inbounds.FirstOrDefault(it => it.Lines.Any(line => line.SerialNumbers.Contains(serialNumber)));
-			result.CustomsNumber = inbound.ShippingMethod;
-			result.CustomsDate = inbound.Eta;
-			return result;
+			try
+			{
+				result.SerialNumber = serialNumber;
+				var inbound = inbounds.First(it => it.Lines.Any(line => line.SerialNumbers.Contains(serialNumber)));
+				result.CustomsNumber = inbound.ShippingMethod;
+				result.CustomsDate = inbound.Eta;
+				return result;
+			}
+			catch (InvalidOperationException)
+			{
+				throw new InvalidSerialNumberException();
+			}
 		}
 
 		[WebMethod(Description = "Get an Order by Id")]
