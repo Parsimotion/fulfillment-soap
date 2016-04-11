@@ -59,10 +59,10 @@ namespace Fulfillment.Soap
 		private LineWithCustomsNumber Transform(Line line, IEnumerable<Inbound> inbounds)
 		{
 			var result = new LineWithCustomsNumber();
-			result.ProductId = line.ProductId;
+			result.ProductId = line.ProductId.Id;
 			result.Quantity = line.Quantity;
 			result.Price = line.Price;
-			result.Title = line.Title;
+			result.Title = line.ProductId.Title;
 			result.SerialNumbers = line.SerialNumbers.Select(it => this.Transform(it, inbounds)).ToArray();
 			return result;
 		}

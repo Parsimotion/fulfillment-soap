@@ -23,20 +23,21 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 
 	public class LineWithoutSerialNumbers
 	{
-		public int ProductId { get; set; }
 		public int Quantity { get; set; }
 		public double Price { get; set; }
-		public string Title { get; set; }
 	}
 
 	public class Line : LineWithoutSerialNumbers
 	{
+		public Product ProductId { get; set; }
 		public string[] SerialNumbers { get; set; }
 	}
 
 	public class LineWithCustomsNumber : LineWithoutSerialNumbers
 	{
 		public SerialNumberWithCustomsNumber[] SerialNumbers {get; set; }
+		public int ProductId { get; set; }
+		public string Title { get; set; }
 	}
 
 	public class SerialNumberWithCustomsNumber
