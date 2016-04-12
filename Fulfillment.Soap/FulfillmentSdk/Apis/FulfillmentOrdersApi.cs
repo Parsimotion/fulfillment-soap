@@ -22,7 +22,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 
 		public Order GetById(int id)
 		{
-			return this.Get<Order>(String.Format("orders/{0}",id));
+			return this.Get<Order>(String.Format("orders/{0}",id), new Parameter { Name = "populate", Value = "lines.product_id", Type = ParameterType.QueryString });
 		}
 	}
 }
