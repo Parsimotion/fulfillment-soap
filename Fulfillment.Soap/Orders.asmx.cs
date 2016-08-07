@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -8,6 +9,7 @@ using System.Xml;
 using Fulfillment.Soap.FulfillmentSdk.Apis;
 using Fulfillment.Soap.FulfillmentSdk.Dtos;
 using Omu.ValueInjecter;
+using RestSharp.Extensions;
 
 namespace Fulfillment.Soap
 {
@@ -73,7 +75,8 @@ namespace Fulfillment.Soap
 			try
 			{
 				result.SerialNumber = serialNumber;
-				var inbound = inbounds.First(it => it.Lines.Any(line => line.SerialNumbers.Contains(serialNumber)));
+				var parsedSerialNumber = ParseSerialNumber(serialNumber);
+				var inbound = inbounds.First(it => it.Lines.Any(line => line.SerialNumbers.Any(range => Contains(range, parsedSerialNumber))));
 				result.CustomsNumber = inbound.ShippingMethod;
 				result.CustomsDate = inbound.Eta;
 				return result;
@@ -82,6 +85,20 @@ namespace Fulfillment.Soap
 			{
 				throw new InvalidSerialNumberException();
 			}
+		}
+
+		private bool Contains(SerialNumber range, Tuple<string, int> parsedSerialNumber)
+		{
+			var number = parsedSerialNumber.Item2;
+			return range.Prefix == parsedSerialNumber.Item1 && range.FromNumber <= number && range.ToNumber >= number;
+		}
+
+		private Tuple<string, int> ParseSerialNumber(string serialNumber)
+		{
+			var match = Regex.Matches(serialNumber, @"(\d+|[^\d]+)");
+			var number = match[match.Count - 1].Value;
+			var prefix = serialNumber.Replace(number, "");
+			return new Tuple<string, int>(prefix, int.Parse(number));
 		}
 
 		[WebMethod(Description = "Get an Order by Id")]

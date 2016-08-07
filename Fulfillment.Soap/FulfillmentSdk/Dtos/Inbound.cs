@@ -7,12 +7,21 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 		InTransit, ReceivedOk, ReceivedWithDifferences, Cancelled
 	}
 
+	public class SerialNumber
+	{
+		public string From { get; set; }
+		public string To { get; set; }
+		public int FromNumber { get; set; }
+		public int ToNumber { get; set; }
+		public string Prefix { get; set; }
+	}
+
 	public class InboundLine
 	{
 		public ProductWithoutSerialNumbers Product { get; set; }
 		public int ShippedQuantity { get; set; }
 		public int ReceivedQuantity { get; set; }
-		public string[] SerialNumbers { get; set; }
+		public SerialNumber[] SerialNumbers { get; set; }
 	}
 
 	public class Inbound
