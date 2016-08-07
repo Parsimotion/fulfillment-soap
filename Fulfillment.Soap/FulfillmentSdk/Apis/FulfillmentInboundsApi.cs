@@ -29,8 +29,8 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 
 		public virtual IEnumerable<Inbound> SearchBySerialNumber(IEnumerable<string> serialNumbers)
 		{
-			var parameters = new Parameter { Name = "lines.serial_numbers__in", Value = String.Join(",", serialNumbers), Type = ParameterType.QueryString };
-			return this.Get<IEnumerable<Inbound>>(Resource, parameters);
+			var parameters = new Parameter { Name = "serial_numbers", Value = String.Join(",", serialNumbers), Type = ParameterType.QueryString };
+			return this.Get<IEnumerable<Inbound>>(Resource + "/findbyserialnumber", parameters);
 		}
 
 		private static string GetResource(int id)
