@@ -33,7 +33,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 
 		private static IEnumerable<string> ExplodeSerialNumbers(SerialNumber serialNumber)
 		{
-			for (var i = serialNumber.FromNumber; i < serialNumber.ToNumber; i++)
+			for (var i = serialNumber.FromNumber; i <= serialNumber.ToNumber; i++)
 			{
 				yield return serialNumber.Prefix + i;
 			}
