@@ -28,7 +28,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 		[XmlIgnore]
 		public SerialNumber[] SerialNumbers { get; set; }
 
-		[XmlElement("SerialNumbers")]
+		[XmlArray("SerialNumbers")]
 		public string[] ExplodedSerialNumbers { get { return this.SerialNumbers.SelectMany(ExplodeSerialNumbers).ToArray(); } set {throw new ApplicationException();} }
 
 		private static IEnumerable<string> ExplodeSerialNumbers(SerialNumber serialNumber)
