@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -46,7 +47,8 @@ namespace Fulfillment.Soap
 			var auth = this.AuthenticationInformation;
 			var inboundsApi = new FulfillmentInboundsApi(auth.UserName, auth.Password);
 			var serialNumbers = orders.SelectMany(it => it.Lines.SelectMany(line => line.SerialNumbers)).ToList();
-			var chunks = Split(serialNumbers, 25);
+			var findBySerialNumberPageSize = int.Parse(ConfigurationManager.AppSettings["FindBySerialNumberPageSize"]);
+            var chunks = Split(serialNumbers, findBySerialNumberPageSize);
 			var inbounds = chunks
 				.SelectMany(chunk => inboundsApi.SearchBySerialNumber(chunk)).ToList();
 
