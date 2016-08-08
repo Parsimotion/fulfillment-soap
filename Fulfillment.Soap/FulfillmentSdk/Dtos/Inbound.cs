@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 {
@@ -21,7 +24,21 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 		public ProductWithoutSerialNumbers Product { get; set; }
 		public int ShippedQuantity { get; set; }
 		public int ReceivedQuantity { get; set; }
+
+		[XmlIgnore]
 		public SerialNumber[] SerialNumbers { get; set; }
+
+		[XmlArray("SerialNumbers")]
+		public string[] ExplodedSerialNumbers { get { return this.SerialNumbers.SelectMany(ExplodeSerialNumbers).ToArray(); } set {throw new ApplicationException();} }
+
+		private static IEnumerable<string> ExplodeSerialNumbers(SerialNumber serialNumber)
+		{
+			for (var i = serialNumber.FromNumber; i <= serialNumber.ToNumber; i++)
+			{
+				yield return serialNumber.Prefix + i;
+			}
+		}
+
 	}
 
 	public class Inbound
