@@ -11,8 +11,8 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 	{
 		public string From { get; set; }
 		public string To { get; set; }
-		public int FromNumber { get; set; }
-		public int ToNumber { get; set; }
+		public long FromNumber { get; set; }
+		public long ToNumber { get; set; }
 		public string Prefix { get; set; }
 	}
 
