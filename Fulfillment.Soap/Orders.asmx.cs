@@ -102,7 +102,7 @@ namespace Fulfillment.Soap
 			}
 			catch (InvalidOperationException)
 			{
-				throw new InvalidSerialNumberException();
+				throw new InvalidSerialNumberException(serialNumber);
 			}
 		}
 
