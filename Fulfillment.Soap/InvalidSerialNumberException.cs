@@ -4,6 +4,6 @@ namespace Fulfillment.Soap
 {
 	public class InvalidSerialNumberException : SoapException
 	{
-		public InvalidSerialNumberException() : base("Invalid Serial Number", ServerFaultCode) { }
+		public InvalidSerialNumberException(string serialNumber) : base($"Invalid Serial Number: {serialNumber}", ServerFaultCode) { }
 	}
 }
