@@ -93,7 +93,7 @@ namespace Fulfillment.Soap
 			var result = new SerialNumberWithCustomsNumber();
 			try
 			{
-				result.SerialNumber = serialNumber;
+				result.SerialNumber = serialNumber.TrimStart('0');
 				var parsedSerialNumber = ParseSerialNumber(serialNumber);
 				var inbound = inbounds.First(it => it.Lines.Any(line => line.SerialNumbers.Any(range => Contains(range, parsedSerialNumber))));
 				result.CustomsNumber = inbound.ShippingMethod;
