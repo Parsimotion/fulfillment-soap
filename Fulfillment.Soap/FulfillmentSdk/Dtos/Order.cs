@@ -120,6 +120,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 		Cancelled,
 		NotVerified,
 		ToBeAgreed,
+		BackInStock
 	}
 
 }
