@@ -7,7 +7,7 @@ namespace Fulfillment.Soap.FulfillmentSdk.Dtos
 {
 	public enum InboundStatus
 	{
-		InTransit, ReceivedOk, ReceivedWithDifferences, Cancelled
+		Pending, InTransit, ReceivedOk, ReceivedWithDifferences, Cancelled
 	}
 
 	public class SerialNumber

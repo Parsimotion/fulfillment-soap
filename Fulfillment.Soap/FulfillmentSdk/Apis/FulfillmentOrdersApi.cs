@@ -14,7 +14,6 @@ namespace Fulfillment.Soap.FulfillmentSdk.Apis
 			var parameters = new []
 			{
 				new Parameter { Name = "populate", Value = "lines.product_id", Type = ParameterType.QueryString },
-				new Parameter { Name = "shipping.status__ne", Value = "pending", Type = ParameterType.QueryString },
 				new Parameter { Name = "updated_at__gt", Value = date.ToString("O"), Type = ParameterType.QueryString }
 			};
 			return this.Get<IEnumerable<Order>>("orders", parameters);
